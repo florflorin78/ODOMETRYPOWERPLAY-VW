@@ -26,10 +26,10 @@ public class RobotSmash {
     double closeClaw = 0.53;
     double openClaw = 0.37;
 
-//    int ground = 0;
-//    int low = 600;
-//    int medium  = 970;
-//    int high = 1300;
+    int ground = 0;
+    int low = 600;
+    int medium  = 970;
+    int high = 1300;
 
     public double pid;
 
@@ -37,10 +37,10 @@ public class RobotSmash {
 
     PIDController pidController = new PIDController(0, 0, 0);
 
-    public static double kp = 0;
+    public static double kp = 0.08;
     public static double ki = 0;
-    public static double kd = 0;
-    public static double ff = 0.25;
+    public static double kd = 0.001;
+    public static double ff = 0.4;
     public static int liftTarget = 0;
 
 
@@ -147,49 +147,49 @@ public class RobotSmash {
 
     public void LiftPID(Gamepad gamepad){
 
-//        if(gamepad.dpad_up) {setLiftTarget(high); manualControl=false;}
-//        else if(gamepad.dpad_left) {setLiftTarget(medium); manualControl=false;}
-//        else if(gamepad.dpad_down) {setLiftTarget(low); manualControl=false;}
-//        else if(gamepad.dpad_right) {setLiftTarget(ground); manualControl=false;}
-//
-//
-//        double manualPower = (gamepad.left_trigger-gamepad.right_trigger+ff)*0.5;
-//
-//        if(gamepad.left_trigger > 0.1 || gamepad.right_trigger > 0.1)
-//            manualControl=true;
-//
-//        if(gamepad.left_trigger > 0.9 || gamepad.right_trigger > 0.9)
-//            manualPower = (gamepad.left_trigger-gamepad.right_trigger+ff)*0.7;
-//
-//
+        if(gamepad.dpad_up) {setLiftTarget(high); manualControl=false;}
+        else if(gamepad.dpad_left) {setLiftTarget(medium); manualControl=false;}
+        else if(gamepad.dpad_down) {setLiftTarget(low); manualControl=false;}
+        else if(gamepad.dpad_right) {setLiftTarget(ground); manualControl=false;}
+
+
+        double manualPower = (gamepad.left_trigger-gamepad.right_trigger+ff)*0.5;
+
+        if(gamepad.left_trigger > 0.1 || gamepad.right_trigger > 0.1)
+            manualControl=true;
+
+        if(gamepad.left_trigger > 0.9 || gamepad.right_trigger > 0.9)
+            manualPower = (gamepad.left_trigger-gamepad.right_trigger+ff)*0.7;
+
+
+        pidController.setPID(kp, ki, kd);
+        int armPos = LiftStanga.getCurrentPosition();
+        double pid = pidController.calculate(armPos, liftTarget);
+
+        double pidPower = pid + ff;
+
+        if(manualControl){
+        LiftDreapta.setPower(manualPower);
+        LiftStanga.setPower(manualPower);}
+        else
+        {LiftDreapta.setPower(pidPower);
+            LiftStanga.setPower(pidPower);}
+
 //        pidController.setPID(kp, ki, kd);
 //        int armPos = LiftStanga.getCurrentPosition();
 //        double pid = pidController.calculate(armPos, liftTarget);
 //
-//        double pidPower = pid + ff;
+//        double power = pid + ff;
 //
-//        if(manualControl){
-//        LiftDreapta.setPower(manualPower);
-//        LiftStanga.setPower(manualPower);}
-//        else
-//        {LiftDreapta.setPower(pidPower);
-//            LiftStanga.setPower(pidPower);}
-
-        pidController.setPID(kp, ki, kd);
-        int armPos = LiftDreapta.getCurrentPosition();
-        double pid = pidController.calculate(armPos, liftTarget);
-
-        double power = pid + ff;
-
-        LiftDreapta.setPower(power);
-        LiftStanga.setPower(power);
+//        LiftDreapta.setPower(power);
+//        LiftStanga.setPower(power);
 
     }
 
     public void LiftPID(){
 
 //        pidController.setPID(kp, ki, kd);
-        int armPos = LiftDreapta.getCurrentPosition();
+        int armPos = LiftStanga.getCurrentPosition();
         pid = pidController.calculate(armPos, liftTarget);
 
         double power = pid + ff;
