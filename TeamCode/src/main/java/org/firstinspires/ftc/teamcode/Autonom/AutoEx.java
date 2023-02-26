@@ -50,10 +50,10 @@ public class AutoEx extends LinearOpMode
         RobotSmash robotSmash = new RobotSmash(hardwareMap);
 
         robotSmash.CloseClaw();
-        drive.setPoseEstimate(startPose);
 
         //region AprilTag
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = hardwareMap.appContexdrive.setPoseEstimate(startPose);
+        t.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
