@@ -43,6 +43,7 @@ public class RobotSmash {
     public static double ff = 0.25;
     public static int liftTarget = 0;
 
+
 //    double kpUP = 0.008;
 //    double kpDOWN = 0.006;
 //    double ki = 0;
